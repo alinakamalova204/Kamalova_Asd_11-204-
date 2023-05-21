@@ -15,7 +15,10 @@ public class Main {
 
         System.out.println(tree.find(10));
 
-        tree.traverseCh(tree.root);
+        tree.delete(6);
+        tree.traverse(tree.root);
+
+        //tree.traverseCh(tree.root);
     }
 
     static class Tree{
@@ -32,7 +35,7 @@ public class Main {
             if (root == null){
                 root = new Node(n);
                 return root;
-            } if (root.value > n){
+            } if (root.value >= n){
                 root.left = addRecur(root.left,n);
 
             } if (root.value < n){
@@ -56,6 +59,33 @@ public class Main {
             } else {
                 return contains(e.left,n);
             }
+        }
+
+        private Node deleteRecur(Node root, int value){
+            if (root == null){
+                return null;
+            }
+            if (root.left == null && root.right == null) {
+                return null;
+            }
+            if (root.right == null) {
+                return root.left;
+            }
+
+            if (root.left == null) {
+                return root.right;
+            }
+            int smallestValue = findSmallestValue(root.right);
+            root.value = smallestValue;
+            root.right = deleteRecur(root.right, smallestValue);
+            return root;
+        }
+        private int findSmallestValue(Node root) {
+            return root.left == null ? root.value : findSmallestValue(root.left);
+        }
+
+        public void delete(int value) {
+            root = deleteRecur(root, value);
         }
         public void traverse(Node root){ //обход в глубину
             if (root != null) {
