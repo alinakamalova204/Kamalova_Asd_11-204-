@@ -1,105 +1,49 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Tree tree = new Tree(new Node(4));
-        tree.add(1);
-        tree.add(3);
-        tree.add(10);
-        tree.add(7);
-        tree.add(8);
-        tree.add(9);
-        tree.add(6);
-        tree.delete(9);
-        tree.traverse(tree.root);
-    }
-
-    static class Tree{
-        Node root; //корень
-
-        public Tree(Node root) {
-            this.root = root;
+        // {3,1} {1,2} {2,4} {5,4} {5,6} {6,7} {8,7} {9,8} {0,9} {9,7}
+        Scanner scanner = new Scanner(System.in);
+        int [] arr = new int[10];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i;
         }
-        //добавление
-        private Node addRecur(Node root, int n){
-            if (root == null){
-                return new Node(n);
-            }
-            if (root.value >= n){
-                root.left = addRecur(root.left,n);
-            }
-            if (root.value < n){
-                root.right = addRecur(root.right,n);
-            } else {
-                return root;
-            }
-            return root;
-        }
-        public void add(int value){
-            root = addRecur(root, value);
-        }
+        System.out.println(Arrays.toString(arr));
 
-        //поиск элемента
-        private boolean contains(Node e, int n){
-            if (e == null){
-                return false;
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println("Введите числа, которые вы хотите объединить");
+            int p = scanner.nextInt();
+            int q = scanner.nextInt();
+            if (arr[p] != arr[q]){
+                if (p < q) {
+                    arr[q] = arr[p];
+                }
+                else {
+                    arr[p] = arr[q];
+                }
+                System.out.println("Полученный массив после объединения");
+                System.out.println(Arrays.toString(arr));
             }
-            if (root.value == n){
-                return true;
-            }
-            if (e.value < n){
-                return contains(e.left, n);
+        }
+        System.out.println(Arrays.toString(arr));
+        System.out.println("Введите 2 числа, которые вы хотите проверить");
+        int a = scanner.nextInt();
+        int b = scanner.nextInt();
+        boolean flag = true;
+//        for (int i = 0; i < arr.length; i++) {
+            if (arr[a] != arr[b]){
+                flag = true;
             }
             else {
-                return contains(e.right,n);
+                flag = false;
             }
-        }
-        public boolean find(int value){
-            return contains(root, value);
-        }
-        //удаление
-        private Node deleteRecur(Node root, int value){
-            if (root == null){
-                return null;
-            }
-            if (root.left == null && root.right == null) {
-                return null;
-            }
-            if (root.right == null) {
-                return root.left;
-            }
-
-            if (root.left == null) {
-                return root.right;
-            }
-            int smallestValue = findSmallestValue(root.right);
-            root.value = smallestValue;
-            root.right = deleteRecur(root.right, smallestValue);
-            return root;
-        }
-        private int findSmallestValue(Node root) {
-            return root.left == null ? root.value : findSmallestValue(root.left);
-        }
-
-        public void delete(int value) {
-            root = deleteRecur(root, value);
-        }
-
-        public void traverse(Node root){
-            if (root != null){
-                traverse(root.left);
-                System.out.println(root.value);
-                traverse(root.right);
-            }
-        }
-
-    }
-    static class Node{
-        int value;
-        Node left;
-        Node right;
-        Node(int value){
-            this.value = value;
-            left = null;
-            right = null;
+//        }
+        if (flag == false){
+            System.out.println("Не надо");
+        }else {
+            System.out.println("Надо");
         }
     }
 }
